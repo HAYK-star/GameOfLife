@@ -32,7 +32,7 @@ class Grass {
     mul() {
         this.life++;
         let newCell = random(this.chooseCell(0));
-        if (newCell && this.life > 10) {
+        if (newCell && this.life > 3) {
             let x = newCell[0];
             let y = newCell[1];
             matrix[y][x] = 1;
@@ -49,7 +49,7 @@ class GrassEater {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.energy = 30;
+        this.energy = 40;
         this.directions = [
             [this.x - 1, this.y - 1],
             [this.x, this.y - 1],
@@ -113,7 +113,7 @@ class GrassEater {
         this.getNewDirections();
         let newCell = random(this.chooseCell(1));
         if (newCell) {
-            this.energy += 5;
+            this.energy += 6;
             let x = newCell[0];
             let y = newCell[1];
 
@@ -129,7 +129,7 @@ class GrassEater {
                 }
             }
 
-            if (this.energy > 60) {
+            if (this.energy > 40) {
                 this.mul()
             }
         }
@@ -162,7 +162,7 @@ class Predator {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.energy = 30;
+        this.energy = 70;
         this.directions = [
             [this.x - 1, this.y - 1],
             [this.x, this.y - 1],
@@ -224,9 +224,9 @@ class Predator {
     }
     eat() {
         this.getNewDirections();
-        let newCell = random(this.chooseCell(2));
+        let newCell = random(this.chooseCell(2).concat(this.chooseCell(5)));
         if (newCell) {
-            this.energy += 20;
+            this.energy += 10;
             let x = newCell[0];
             let y = newCell[1];
             matrix[y][x] = 3;
@@ -241,7 +241,7 @@ class Predator {
                 }
             }
 
-            if (this.energy > 60) {
+            if (this.energy > 50) {
                 this.mul()
             }
         }
@@ -297,6 +297,53 @@ class Lava {
 
         return arr;
     }
+    mul() {
+        this.life++;
+        let newCell = random(this.chooseCell(0).concat(this.chooseCell(1).concat(this.chooseCell(2).concat(this.chooseCell(3)))));
+        if (newCell && this.life > 10) {
+            let x = newCell[0];
+            let y = newCell[1];
+            matrix[y][x] = 4;
+            let lava = new Lava(x, y);
+            lavaArr.push(lava);
+            this.life = 0;
+        }
+    }
+}
+
+class Hrshej {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.energy = 60;
+        this.directions = [
+            [this.x - 1, this.y - 1],
+            [this.x, this.y - 1],
+            [this.x + 1, this.y - 1],
+            [this.x - 1, this.y],
+            [this.x + 1, this.y],
+            [this.x - 1, this.y + 1],
+            [this.x, this.y + 1],
+            [this.x + 1, this.y + 1]
+        ];
+    }
+    chooseCell(char) {
+        let arr = [];
+
+        for (let index = 0; index < this.directions.length; index++) {
+            let x = this.directions[index][0];
+            let y = this.directions[index][1];
+
+            if (x >= 0 && y >= 0 && x < matrix[0].length && y < matrix.length) {
+                if (matrix[y][x] == char) {
+                    arr.push(this.directions[index])
+                }
+            }
+
+        }
+
+        return arr;
+    }
     getNewDirections() {
         this.directions = [
             [this.x - 1, this.y - 1],
@@ -310,37 +357,67 @@ class Lava {
         ];
     }
     mul() {
-        this.life == 1;
         let newCell = random(this.chooseCell(0));
-        if (newCell && this.life > 10) {
+        if (newCell) {
             let x = newCell[0];
             let y = newCell[1];
-            matrix[y][x] = 4;
-            let lava = new Lava(x, y);
-            lavaArr.push(lava);
-            this.life = 0;
+            matrix[y][x] = 5;
+            let hrshej = new Hrshej(x, y);
+            hrshejArr.push(hrshej);
+            this.energy = 0;
+        }
+    }
+    die() {
+        matrix[this.y][this.x] = 0;
+        for (let index = 0; index < hrshejArr.length; index++) {
+            if (hrshejArr[index].x == this.x && hrshejArr[index].y == this.y) {
+                hrshejArr.splice(index, 1)
+            }
         }
     }
     eat() {
         this.getNewDirections();
-        let newCell = random(this.chooseCell(1));
+        let newCell = random(this.chooseCell(2).concat(this.chooseCell(4)));
         if (newCell) {
-            this.energy ++;
+            this.energy += 2;
             let x = newCell[0];
             let y = newCell[1];
 
-            matrix[y][x] = 4;
+            matrix[y][x] = 5;
             matrix[this.y][this.x] = 0;
 
             this.y = y;
             this.x = x;
-console.log(newCell);
 
             for (let index = 0; index < grassArr.length; index++) {
                 if (grassArr[index].x == x && grassArr[index].y == y) {
                     grassArr.splice(index, 1)
                 }
             }
+
+            if (this.energy > 60) {
+                this.mul()
+            }
+        }
+        else { this.move() }
+    }
+    move() {
+        this.energy-=2;
+        let newCell = random(this.chooseCell(0).concat(this.chooseCell(1)));
+        if (newCell) {
+            let x = newCell[0];
+            let y = newCell[1];
+            matrix[y][x] = 5;
+            matrix[this.y][this.x] = 0;
+
+            this.y = y;
+            this.x = x;
+        }
+        if (newCell && this.energy < 0) {
+            this.die();
+        }
+        if (this.energy < 0) {
+            this.die();
         }
     }
 }

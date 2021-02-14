@@ -4,16 +4,17 @@ let grassArr = [];
 let grassEaterArr = [];
 let predatorArr = [];
 let lavaArr = [];
+let hrshejArr = [];
 
 function setup() {
-    matrixGenerator(10, 1, 1, 1, 1);
+    matrixGenerator(100, 20, 15, 10, 5, 10);
     createCanvas(matrix[0].length * side, matrix.length * side);
     background('grey');
     frameRate(8);
 
     noStroke()
 
-    function matrixGenerator(matrixSize, grassCount, grassEaterCount, predatorCount, lavaCount) {
+    function matrixGenerator(matrixSize, grassCount, grassEaterCount, predatorCount, lavaCount, hrshejCount) {
         for (let index = 0; index < matrixSize; index++) {
             matrix[index] = [];
             for (let i = 0; i < matrixSize; i++) {
@@ -40,6 +41,11 @@ function setup() {
             let y = Math.floor(random(0, matrixSize));
             matrix[y][x] = 4;
         }
+        for (let index = 0; index < hrshejCount; index++) {
+            let x = Math.floor(random(0, matrixSize));
+            let y = Math.floor(random(0, matrixSize));
+            matrix[y][x] = 5;
+        }
     }
 
     for (let y = 0; y < matrix.length; y++) {
@@ -59,6 +65,10 @@ function setup() {
             else if (matrix[y][x] == 4) {
                 let lava = new Lava(x, y);
                 lavaArr.push(lava);
+            }
+            else if (matrix[y][x] == 5) {
+                let hrshej = new Hrshej(x, y);
+                hrshejArr.push(hrshej);
             }
         }
     }
@@ -83,6 +93,9 @@ function draw() {
             else if (matrix[y][x] == 4) {
                 fill('orange')
             }
+            else if (matrix[y][x] == 5) {
+                fill('black')
+            }
             else {
                 fill('grey')
             }
@@ -100,6 +113,8 @@ function draw() {
     }
     for (let index = 0; index < lavaArr.length; index++) {
         lavaArr[index].mul();
-        
+    }
+    for (let index = 0; index < hrshejArr.length; index++) {
+        hrshejArr[index].eat();
     }
 }
