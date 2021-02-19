@@ -4,6 +4,10 @@ var random = require("./random.js");
 
 
 module.exports = class Predator extends LiveForm{
+    constructor(x, y){
+        super(x,y); 
+        this.life = 15; 
+    }
     getNewCoordinates() {
         this.directions = [
             [this.x - 1, this.y - 1],
@@ -34,9 +38,10 @@ module.exports = class Predator extends LiveForm{
     }
     die() {
         matrix[this.y][this.x] = 0;
-        for (let index = 0; index < predatorArr.length; index++) {
+        for (let index in predatorArr) {
             if (predatorArr[index].x == this.x && predatorArr[index].y == this.y) {
                 predatorArr.splice(index, 1)
+                predatorHashiv--; 
             }
         }
     }
@@ -44,7 +49,7 @@ module.exports = class Predator extends LiveForm{
         this.getNewCoordinates();
         let newCell = random(this.chooseCell(2));
         if (newCell) {
-            this.energy += 30;
+            this.life += 3;
             let x = newCell[0];
             let y = newCell[1];
             matrix[y][x] = 3;
@@ -59,14 +64,14 @@ module.exports = class Predator extends LiveForm{
                 }
             }
 
-            if (this.energy > 60) {
+            if (this.life >= 12) {
                 this.mul()
             }
         }
         else { this.move() }
     }
     move() {
-        this.energy -= 5;
+        this.life --;
         let newCell = random(this.chooseCell(0).concat(this.chooseCell(1)));
         if (newCell) {
             let x = newCell[0];
@@ -76,10 +81,10 @@ module.exports = class Predator extends LiveForm{
             this.y = y;
             this.x = x;
         }
-        if (newCell && this.energy < 0) {
+        if (newCell && this.life < 0) {
             this.die();
         }
-        if (this.energy < 0) {
+        if (this.life < 0) {
             this.die();
         }
     }

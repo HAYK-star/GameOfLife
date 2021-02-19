@@ -28,6 +28,7 @@ module.exports = class Lava extends LiveForm {
     mul() {
         this.life++;
         let newCell = random(this.chooseCell(0).concat(this.chooseCell(1)).concat(this.chooseCell(2)).concat(this.chooseCell(3)));
+        
         if (newCell && this.life > 10) {
             lavaHashiv++; 
             let x = newCell[0];

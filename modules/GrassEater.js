@@ -5,7 +5,7 @@ var random = require("./random.js");
 module.exports = class GrassEater extends LiveForm {
     constructor(x, y) {
         super(x, y);
-        this.life = 10;
+        this.life = 15;
     }
     getNewCoordinates() {
         this.directions = [
@@ -28,18 +28,15 @@ module.exports = class GrassEater extends LiveForm {
         let emptyCells = this.chooseCell(0);
         let newCell = random(emptyCells);
 
-        console.log(grassEaterArr)
-
 
         if (newCell) {
 
             let x = newCell[0];
             let y = newCell[1];
             matrix[y][x] = 2;
-            console.log(grassEaterArr)
             let temp = new GrassEater(x, y);
             grassEaterArr.push(temp);
-            this.life = 5;
+            this.life = 2;
         }
     }
     eat() {
@@ -48,7 +45,7 @@ module.exports = class GrassEater extends LiveForm {
 
         if (newCell) {
 
-            this.life++;
+            this.life+=5;
             let x = newCell[0];
             let y = newCell[1];
 
@@ -57,8 +54,8 @@ module.exports = class GrassEater extends LiveForm {
 
             for (let i in grassArr) {
                 if (grassArr[i].x == x && grassArr[i].y == y) {
-                    console.log("Kerav");
-                    grassArr.splice(i, 1)
+                    grassArr.splice(i, 1); 
+                    grassHashiv--; 
                 }
             }
             this.x = x;
@@ -69,7 +66,7 @@ module.exports = class GrassEater extends LiveForm {
             }
         }
         else {
-            this.move()
+            this.move(); 
         }
     }
     move() {
@@ -92,10 +89,10 @@ module.exports = class GrassEater extends LiveForm {
     }
     die() {
         matrix[this.y][this.x] = 0;
-
         for (let i in grassEaterArr) {
             if (grassEaterArr[i].x == this.x && grassEaterArr[i].y == this.y) {
                 grassEaterArr.splice(i, 1)
+                grassEaterHashiv--;
             }
         }
     }

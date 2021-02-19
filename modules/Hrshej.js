@@ -5,10 +5,8 @@ var random = require("./random.js");
 
 module.exports = class Hrshej extends LiveForm {
     constructor(x, y) {
-        
         super(x,y);
-        this.life = 30;
-        
+        this.life = 20;
     }
     getNewCoordinates() {
         this.directions = [
@@ -44,7 +42,7 @@ module.exports = class Hrshej extends LiveForm {
         this.getNewCoordinates();
         let newCell = random(this.chooseCell(2).concat(this.chooseCell(4)));
         if (newCell) {
-            this.life += 20;
+            this.life += 2;
             let x = newCell[0];
             let y = newCell[1];
             matrix[y][x] = 5;
@@ -63,18 +61,15 @@ module.exports = class Hrshej extends LiveForm {
                     lavaArr.splice(index, 1)
                 }
             }
-            if (this.life > 120) {
+            if (this.life > 12) {
                 this.mul()
             }
         }
         else { this.move() }
     }
     move() {
-        
-        
         this.life--;
-        let emptyCells = this.chooseCell(this.chooseCell(0).concat(this.chooseCell(1)));
-        let newCell = random(emptyCells);
+        let newCell = random(this.chooseCell(0).concat(this.chooseCell(1)));
         if (newCell) {
             let x = newCell[0];
             let y = newCell[1];
@@ -92,9 +87,10 @@ module.exports = class Hrshej extends LiveForm {
     }
      die() {
         matrix[this.y][this.x] = 0;
-        for (let index = 0; index < hrshejArr.length; index++) {
+        for (let index in hrshejArr) {
             if (hrshejArr[index].x == this.x && hrshejArr[index].y == this.y) {
                 hrshejArr.splice(index, 1)
+                hrshejHashiv--; 
             }
         }
     }

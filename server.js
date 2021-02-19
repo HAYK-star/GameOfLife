@@ -62,7 +62,7 @@ function matrixGenerator(matrixSize, grass, grassEater, Predator, Lava, Hrshej) 
         matrix[customY][customX] = 5;
     }
 }
-matrixGenerator(27, 15, 20, 10, 10, 10);
+matrixGenerator(25, 10, 20, 5, 5, 5);
 //! Creating MATRIX -- END
 
 //! SERVER STUFF  --  START
@@ -152,4 +152,4 @@ function game() {
 
     
 }
-setInterval(game, 1000);
+setInterval(game, 500);
