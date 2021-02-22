@@ -1,11 +1,9 @@
 var LiveForm = require("./LiveForm");
 var random = require("./random.js");
 
-
-
 module.exports = class Hrshej extends LiveForm {
     constructor(x, y) {
-        super(x,y);
+        super(x, y);
         this.life = 20;
     }
     getNewCoordinates() {
@@ -24,8 +22,7 @@ module.exports = class Hrshej extends LiveForm {
         this.getNewCoordinates();
         return super.chooseCell(character);
     } 
-    mul() {
-        
+    mul() { 
         let newCell = random(this.chooseCell(0).concat(this.chooseCell(1)));
         if (newCell) {
             hrshejHashiv++; 
@@ -54,11 +51,13 @@ module.exports = class Hrshej extends LiveForm {
             for (let index = 0; index < grassEaterArr.length; index++) {
                 if (grassEaterArr[index].x == x && grassEaterArr[index].y == y) {
                     grassEaterArr.splice(index, 1)
+                    grassEaterHashiv--; 
                 }
             }
             for (let index = 0; index < lavaArr.length; index++) {
                 if (lavaArr[index].x == x && lavaArr[index].y == y) {
                     lavaArr.splice(index, 1)
+                    lavaHashiv--;
                 }
             }
             if (this.life > 12) {
@@ -71,12 +70,18 @@ module.exports = class Hrshej extends LiveForm {
         this.life--;
         let newCell = random(this.chooseCell(0).concat(this.chooseCell(1)));
         if (newCell) {
-            let x = newCell[0];
-            let y = newCell[1];
+            var x = newCell[0];
+            var y = newCell[1];
             matrix[y][x] = 5;
             matrix[this.y][this.x] = 0;
             this.y = y;
             this.x = x;
+            for (let i in grassArr) {
+                if (grassArr[i].x == x && grassArr[i].y == y) {
+                    grassArr.splice(i, 1); 
+                    grassHashiv--; 
+                }
+            }
         }
         if (newCell && this.life < 0) {
             this.die();

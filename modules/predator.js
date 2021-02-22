@@ -1,7 +1,6 @@
+// const GrassEater = require("./GrassEater");
 var LiveForm = require("./LiveForm");
 var random = require("./random.js");
-
-
 
 module.exports = class Predator extends LiveForm{
     constructor(x, y){
@@ -33,7 +32,7 @@ module.exports = class Predator extends LiveForm{
             matrix[y][x] = 3;
             let predator = new Predator(x, y);
             predatorArr.push(predator);
-            this.energy = 0;
+            this.life = 2;
         }
     }
     die() {
@@ -61,6 +60,7 @@ module.exports = class Predator extends LiveForm{
             for (let index = 0; index < grassEaterArr.length; index++) {
                 if (grassEaterArr[index].x == x && grassEaterArr[index].y == y) {
                     grassEaterArr.splice(index, 1)
+                    grassEaterHashiv--;
                 }
             }
 
@@ -74,12 +74,18 @@ module.exports = class Predator extends LiveForm{
         this.life --;
         let newCell = random(this.chooseCell(0).concat(this.chooseCell(1)));
         if (newCell) {
-            let x = newCell[0];
-            let y = newCell[1];
+            var x = newCell[0];
+            var y = newCell[1];
             matrix[y][x] = 3;
             matrix[this.y][this.x] = 0;
             this.y = y;
             this.x = x;
+        }
+        for (let i in grassArr) {
+            if (grassArr[i].x == x && grassArr[i].y == y) {
+                grassArr.splice(i, 1); 
+                grassHashiv--; 
+            }
         }
         if (newCell && this.life < 0) {
             this.die();
