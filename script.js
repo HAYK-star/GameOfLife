@@ -1,4 +1,3 @@
-
 //! Setup function fires automatically
 function setup() {
 
@@ -14,7 +13,9 @@ function setup() {
     let predatorCountElement = document.getElementById('predatorCount');
     let lavaCountElement = document.getElementById('lavaCount');
     let hrshejCountElement = document.getElementById('hrshejCount');
-
+    let waterCountElement = document.getElementById('waterCount');
+    let stoneCountElement = document.getElementById('stoneCount');
+    let stoneBrackerCountElement = document.getElementById('stoneBrackerCount');
     //! adding socket listener on "data" <-- name, after that fire 'drawCreatures' function 
 
     socket.on("data", drawCreatures);
@@ -27,6 +28,9 @@ function setup() {
         predatorCountElement.innerText = data.predatorCounter;
         lavaCountElement.innerText = data.lavaCounter;
         hrshejCountElement.innerText = data.hrshejCounter;
+        waterCountElement.innerText = data.waterCounter;
+        stoneCountElement.innerText = data.stoneCounter;
+        stoneBrackerCountElement.innerText = data.stoneBrackerCounter;
         //! Every time it creates new Canvas woth new matrix size
         createCanvas(matrix[0].length * side, matrix.length * side)
         //! clearing background by setting it to new grey color
@@ -54,6 +58,15 @@ function setup() {
                 } else if (matrix[i][j] == 5) {
                     fill("black");
                     rect(j * side, i * side, side, side);
+                } else if (matrix[i][j] == 6) {
+                    fill("blue");
+                    rect(j * side, i * side, side, side);
+                } else if (matrix[i][j] == 7) {
+                    fill("white");
+                    rect(j * side, i * side, side, side);
+                } else if (matrix[i][j] == 8) {
+                    fill("purple"); 
+                    rect(j * side, i * side, side, side); 
                 }
             }
         }

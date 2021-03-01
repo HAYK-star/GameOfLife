@@ -5,7 +5,7 @@ var random = require("./random.js");
 module.exports = class Predator extends LiveForm{
     constructor(x, y){
         super(x,y); 
-        this.life = 15; 
+        this.life = 30; 
     }
     getNewCoordinates() {
         this.directions = [
@@ -48,7 +48,7 @@ module.exports = class Predator extends LiveForm{
         this.getNewCoordinates();
         let newCell = random(this.chooseCell(2));
         if (newCell) {
-            this.life += 3;
+            this.life += 9;
             let x = newCell[0];
             let y = newCell[1];
             matrix[y][x] = 3;
@@ -64,7 +64,7 @@ module.exports = class Predator extends LiveForm{
                 }
             }
 
-            if (this.life >= 12) {
+            if (this.life >= 36) {
                 this.mul()
             }
         }

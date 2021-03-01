@@ -4,7 +4,7 @@ var random = require("./random.js");
 module.exports = class Hrshej extends LiveForm {
     constructor(x, y) {
         super(x, y);
-        this.life = 20;
+        this.life = 30;
     }
     getNewCoordinates() {
         this.directions = [
@@ -39,7 +39,7 @@ module.exports = class Hrshej extends LiveForm {
         this.getNewCoordinates();
         let newCell = random(this.chooseCell(2).concat(this.chooseCell(4)));
         if (newCell) {
-            this.life += 2;
+            this.life += 5;
             let x = newCell[0];
             let y = newCell[1];
             matrix[y][x] = 5;
@@ -60,7 +60,7 @@ module.exports = class Hrshej extends LiveForm {
                     lavaHashiv--;
                 }
             }
-            if (this.life > 12) {
+            if (this.life > 30) {
                 this.mul()
             }
         }

@@ -1,7 +1,7 @@
 var LiveForm = require("./LiveForm");
 var random = require("./random.js");
 
-module.exports = class Lava extends LiveForm {
+module.exports = class Water extends LiveForm {
     constructor(x, y) {
         super(x, y);
         this.life = 0;
@@ -24,20 +24,21 @@ module.exports = class Lava extends LiveForm {
     }
     mul() {
         this.life+=2;
-        let newCell = random(this.chooseCell(0).concat(this.chooseCell(1)).concat(this.chooseCell(2)).concat(this.chooseCell(3)).concat(this.chooseCell(6)));
+        let newCell = random(this.chooseCell(0).concat(this.chooseCell(5)).concat(this.chooseCell(2)).concat(this.chooseCell(3)).concat(this.chooseCell(4)));
         if (newCell && this.life >= 4) {
-            lavaHashiv++;
+            waterHashiv++;
             var x = newCell[0];
             var y = newCell[1];
-            matrix[y][x] = 4;
-            let lava = new Lava(x, y);
-            lavaArr.push(lava);
+            matrix[y][x] = 6;
+            let water = new Water(x, y);
+            waterArr.push(water);
             this.life = 0;
-            for (let i in grassArr) {
-                if (grassArr[i].x == x && grassArr[i].y == y) {
-                    grassArr.splice(i, 1); 
-                    grassHashiv--;
-                    this.life += 4;  
+            for (let i in lavaArr) {
+                if (lavaArr[i].x == x && lavaArr[i].y == y) {
+                    lavaArr.splice(i, 1); 
+                    lavaHashiv--;
+                    matrix[this.x][this.y] == 7; 
+                    stoneHashiv++;  
                 }
             }
             for (let i in grassEaterArr) {
@@ -52,11 +53,10 @@ module.exports = class Lava extends LiveForm {
                     predatorHashiv--; 
                 }
             }
-            for (let i in waterArr) {
-                if (waterArr[i].x == x && waterArr[i].y == y) {
-                    waterArr.splice(i, 1); 
-                    waterHashiv--;
-                    console.log(waterHashiv);
+            for (let i in hrshejArr) {
+                if (hrshejArr[i].x == x && hrshejArr[i].y == y) {
+                    hrshejArr.splice(i, 1); 
+                    hrshejHashiv--; 
                 }
             }
         }

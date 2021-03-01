@@ -23,17 +23,22 @@ module.exports = class Grass extends LiveForm {
         return super.chooseCell(character);
     }
     mul() {
-        this.life++;
-        let emptyCells = this.chooseCell(0);
-        let newCell = random(emptyCells);
-        if (newCell && this.life >= 2) {
+        this.life+=2;
+        let newCell = random(this.chooseCell(0).concat(this.chooseCell(6)));
+        if (newCell && this.life >= 4) {
             grassHashiv++;
-            let x = newCell[0];
-            let y = newCell[1];
+            var x = newCell[0];
+            var y = newCell[1];
             matrix[y][x] = 1;
-            let grass = new Grass(x, y);
+            var grass = new Grass(x, y);
             grassArr.push(grass);
             this.life = 0;
+            for (let i in waterArr) {
+                if (waterArr[i].x == this.x && waterArr[i].y == this.y) {
+                    waterArr.splice(i, 1)
+                    waterHashiv--; 
+                }
+            }
         }
     }
 }

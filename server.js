@@ -1,13 +1,14 @@
-
 //! Requiring modules  --  START
 var Grass = require("./modules/Grass.js");
 var GrassEater = require("./modules/GrassEater.js");
 var Predator = require("./modules/predator.js");
 var Lava = require("./modules/Lava.js");
 var Hrshej = require("./modules/Hrshej.js");
-let random = require('./modules/random');
+var Water = require("./modules/Water.js"); 
+var Stone = require("./modules/Stone.js"); 
+var StoneBracker = require("./modules/StoneBracker.js"); 
+let random = require('./modules/random.js');
 //! Requiring modules  --  END
-
 
 //! Setting global arrays  --  START
 grassArr = [];
@@ -15,21 +16,24 @@ grassEaterArr = [];
 predatorArr = [];
 lavaArr = [];
 hrshejArr = [];
+waterArr = []; 
+stoneArr = []; 
+stoneBrackerArr = [];
 matrix = [];
 grassHashiv = 0;
 grassEaterHashiv = 0;
 predatorHashiv = 0;
 lavaHashiv = 0;
 hrshejHashiv = 0;
+waterHashiv = 0; 
+stoneHashiv = 0; 
+stoneBrackerHashiv = 0; 
 weather = '';
-var counter = 0;
+var counter = 0; 
 //! Setting global arrays  -- END
 
-
-
-
 //! Creating MATRIX -- START
-function matrixGenerator(matrixSize, grass, grassEater, Predator, Lava, Hrshej) {
+function matrixGenerator(matrixSize, grass, grassEater, Predator, Lava, Hrshej, Water, Stone, StoneBracker) {
     for (let i = 0; i < matrixSize; i++) {
         matrix[i] = [];
         for (let o = 0; o < matrixSize; o++) {
@@ -61,8 +65,23 @@ function matrixGenerator(matrixSize, grass, grassEater, Predator, Lava, Hrshej) 
         let customY = Math.floor(random(matrixSize));
         matrix[customY][customX] = 5;
     }
+    for (let i = 0; i < Water; i++) {
+        let customX = Math.floor(random(matrixSize));
+        let customY = Math.floor(random(matrixSize));
+        matrix[customY][customX] = 6;
+    }
+    for (let i = 0; i < Stone; i++) {
+        let customX = Math.floor(random(matrixSize));
+        let customY = Math.floor(random(matrixSize));
+        matrix[customY][customX] = 7;
+    }
+    for (let i = 0; i < StoneBracker; i++) {
+        let customX = Math.floor(random(matrixSize));
+        let customY = Math.floor(random(matrixSize));
+        matrix[customY][customX] = 8;
+    }
 }
-matrixGenerator(25, 10, 20, 5, 5, 5);
+matrixGenerator(25, 10, 20, 5, 5, 5, 2, 0, 10);
 //! Creating MATRIX -- END
 
 //! SERVER STUFF  --  START
@@ -102,9 +121,19 @@ function creatingObjects() {
                 var hrshej = new Hrshej(x, y);
                 hrshejArr.push(hrshej);
                 hrshejHashiv++;
+            } else if (matrix[y][x] == 6) {
+                var water = new Water(x, y);
+                waterArr.push(water);
+                waterHashiv++;
+            } else if (matrix[y][x] == 7) {
+                var stone = new Stone(x, y);
+                stoneArr.push(stone);
+                stoneHashiv++;
+            } else if (matrix[y][x] == 8) {
+                var stoneBracker = new StoneBracker(x, y);
+                stoneBrackerArr.push(stoneBracker);
+                stoneBrackerHashiv++;
             }
-
-
         }
     }
 }
@@ -136,6 +165,20 @@ function game() {
             hrshejArr[i].eat();
         }
     }
+    if (waterArr[0] !== undefined) {
+        for (var i in waterArr) {
+            waterArr[i].mul();
+        }
+    }
+    if (stoneArr[0] !== undefined) {
+        for (var i in stoneArr) {
+        }
+    }
+    if (stoneBrackerArr[0] !== undefined) {
+        for (var i in stoneBrackerArr) {
+            stoneBrackerArr[i].move();
+        }
+    }
     //! Object to send
     let sendData = {
         matrix: matrix,
@@ -143,7 +186,10 @@ function game() {
         grassEaterCounter: grassEaterHashiv,
         predatorCounter: predatorHashiv,
         lavaCounter: lavaHashiv,
-        hrshejCounter: hrshejHashiv
+        hrshejCounter: hrshejHashiv, 
+        waterCounter: waterHashiv,
+        stoneCounter: stoneHashiv, 
+        stoneBrackerCounter: stoneBrackerHashiv
     }
 
     
