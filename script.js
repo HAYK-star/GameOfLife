@@ -36,7 +36,6 @@ function setup() {
         //! clearing background by setting it to new grey color
         background('#acacac');
         //! Draw grassCount and grassEaterCount to HTML (use DOM objects to update information, yes, and use .innerText <- function)
-
         //! Drawing and coloring RECTs
         for (var i = 0; i < matrix.length; i++) {
             for (var j = 0; j < matrix[i].length; j++) {
@@ -65,10 +64,51 @@ function setup() {
                     fill("white");
                     rect(j * side, i * side, side, side);
                 } else if (matrix[i][j] == 8) {
-                    fill("purple"); 
-                    rect(j * side, i * side, side, side); 
+                    fill("purple");
+                    rect(j * side, i * side, side, side);
                 }
             }
         }
     }
+}
+io.on("weather", function (data) {
+    weath = data;
+})
+
+function nkarel(matrix) {
+    for (var y = 0; y < matrix.length; y++) {
+        for (var x = 0; x < matrix[0].length; x++) {
+            var obj = matrix[y][x];
+            if (obj == 1) {
+                if (weath == "summer") {
+                    fill("green");
+                } else if (weath == "autumn") {
+                    fill("#333300");
+                } else if (weath == "winter") {
+                    fill("white");
+                } else if (weath == "spring") {
+                    fill("#4dffa6");
+                }
+            } else if (obj == 2) {
+                fill("yellow");
+            } else if (obj == 0) {
+                fill("grey")
+            }
+            rect(x * side, y * side, side, side);
+        }
+    }
+}
+
+socket.on('send matrix', nkarel)
+
+
+
+function kill() {
+    socket.emit("kill")
+}
+function addGrass() {
+    socket.emit("add grass")
+}
+function addGrassEater() {
+    socket.emit("add grassEater")
 }

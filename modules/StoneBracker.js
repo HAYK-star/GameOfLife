@@ -54,7 +54,6 @@ module.exports = class StoneBracker extends LiveForm {
                 if (stoneArr[i].x == x && stoneArr[i].y == y) {
                     stoneArr.splice(i, 1);
                     stoneHashiv--;
-                    console.log(stoneHashiv);
                 }
             }
         }

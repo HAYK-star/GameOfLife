@@ -24,7 +24,7 @@ module.exports = class Lava extends LiveForm {
     }
     mul() {
         this.life+=2;
-        let newCell = random(this.chooseCell(0).concat(this.chooseCell(1)).concat(this.chooseCell(2)).concat(this.chooseCell(3)).concat(this.chooseCell(6)));
+        let newCell = random(this.chooseCell(0).concat(this.chooseCell(1)).concat(this.chooseCell(2)).concat(this.chooseCell(3)));
         if (newCell && this.life >= 4) {
             lavaHashiv++;
             var x = newCell[0];
@@ -52,13 +52,13 @@ module.exports = class Lava extends LiveForm {
                     predatorHashiv--; 
                 }
             }
-            for (let i in waterArr) {
-                if (waterArr[i].x == x && waterArr[i].y == y) {
-                    waterArr.splice(i, 1); 
-                    waterHashiv--;
-                    console.log(waterHashiv);
-                }
-            }
+            // for (let i in waterArr) {
+            //     if (waterArr[i].x == x && waterArr[i].y == y) {
+            //         waterArr.splice(i, 1); 
+            //         waterHashiv--;
+            //         console.log(waterHashiv);
+            //     }
+            // }
         }
     }
 }

@@ -7,6 +7,7 @@ var Hrshej = require("./modules/Hrshej.js");
 var Water = require("./modules/Water.js"); 
 var Stone = require("./modules/Stone.js"); 
 var StoneBracker = require("./modules/StoneBracker.js"); 
+// var fs = require("fs");
 let random = require('./modules/random.js');
 //! Requiring modules  --  END
 
@@ -28,8 +29,8 @@ hrshejHashiv = 0;
 waterHashiv = 0; 
 stoneHashiv = 0; 
 stoneBrackerHashiv = 0; 
-weather = '';
-var counter = 0; 
+weath = "winter";
+// var counter = 0; 
 //! Setting global arrays  -- END
 
 //! Creating MATRIX -- START
@@ -81,7 +82,7 @@ function matrixGenerator(matrixSize, grass, grassEater, Predator, Lava, Hrshej, 
         matrix[customY][customX] = 8;
     }
 }
-matrixGenerator(25, 10, 20, 5, 5, 5, 2, 0, 10);
+matrixGenerator(25, 25, 20, 5, 5, 5, 2, 0, 10);
 //! Creating MATRIX -- END
 
 //! SERVER STUFF  --  START
@@ -178,6 +179,7 @@ function game() {
         for (var i in stoneBrackerArr) {
             stoneBrackerArr[i].move();
         }
+
     }
     //! Object to send
     let sendData = {
@@ -196,6 +198,76 @@ function game() {
     //! Send data over the socket to clients who listens "data"
     io.sockets.emit("data", sendData);
 
-    
+    // console.log(stoneArr[0].x, stoneArr[0].y);
 }
-setInterval(game, 500);
+setInterval(game, 500); 
+
+function kill() {
+    grassArr = [];
+    grassEaterArr = []
+    for (var y = 0; y < matrix.length; y++) {
+        for (var x = 0; x < matrix[y].length; x++) {
+            matrix[y][x] = 0;
+        }
+    }
+    io.sockets.emit("send matrix", matrix);
+}
+
+
+function addGrass() {
+    for (var i = 0; i < 7; i++) {
+    var x = Math.floor(Math.random() * matrix[0].length)
+    var y = Math.floor(Math.random() * matrix.length)
+        if (matrix[y][x] == 0) {
+            matrix[y][x] = 1
+            var gr = new Grass(x, y)
+            grassArr.push(gr)
+        }
+    }
+    io.sockets.emit("send matrix", matrix);
+}
+function addGrassEater() {
+    for (var i = 0; i < 7; i++) {   
+    var x = Math.floor(Math.random() * matrix[0].length)
+    var y = Math.floor(Math.random() * matrix.length)
+        if (matrix[y][x] == 0) {
+            matrix[y][x] = 2
+            let grassEater = new GrassEater(x, y);
+            grassEaterArr.push(grassEater);
+            console.log(1);
+        }
+    }
+    io.sockets.emit("send matrix", matrix);
+}
+
+
+///new
+
+
+
+function weather() {
+    if (weath == "winter") {
+        weath = "spring"
+    }
+    else if (weath == "spring") {
+        weath = "summer"
+    }
+    else if (weath == "summer") {
+        weath = "autumn"
+    }
+    else if (weath == "autumn") {
+        weath = "winter"
+    }
+    io.sockets.emit('weather', weath)
+}
+setInterval(weather, 5000);
+
+
+////
+
+io.on('connection', function (socket) {
+    creatingObjects();
+    socket.on("kill", kill);
+    socket.on("add grass", addGrass);
+    socket.on("add grassEater", addGrassEater);
+});

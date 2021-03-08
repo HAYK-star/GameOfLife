@@ -30,15 +30,27 @@ module.exports = class Grass extends LiveForm {
             var x = newCell[0];
             var y = newCell[1];
             matrix[y][x] = 1;
-            var grass = new Grass(x, y);
+            var grass = new Grass(x, y, 1);
             grassArr.push(grass);
             this.life = 0;
             for (let i in waterArr) {
-                if (waterArr[i].x == this.x && waterArr[i].y == this.y) {
-                    waterArr.splice(i, 1)
-                    waterHashiv--; 
+                if (waterArr[i].x == x && waterArr[i].y == y) {
+                    waterArr.splice(i, 1);
+                    waterHashiv--;
                 }
             }
+            // if (weath == "winter") {
+            //     this.life -= 2;
+            // }
+            // if (weath == "spring") {
+            //     this.life += 5;
+            // }
+            // if (weath == "summer") {
+            //     this.life += 3;
+            // }
+            // if (weath == "autumn") {
+            //     this.life--;      
+            // }
         }
     }
 }
