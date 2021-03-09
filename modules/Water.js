@@ -1,6 +1,5 @@
 var LiveForm = require("./LiveForm");
 var random = require("./random.js");
-var Stone = require("./Stone.js")
 
 module.exports = class Water extends LiveForm {
     constructor(x, y) {
@@ -38,10 +37,6 @@ module.exports = class Water extends LiveForm {
                 if (lavaArr[i].x == x && lavaArr[i].y == y) {
                     lavaArr.splice(i, 1); 
                     lavaHashiv--;
-                    var stone = new Stone(this.x, this.y);
-                    stoneArr.push(stone);
-                    matrix[x][y] == 7; 
-                    stoneHashiv++; 
                 }
             }
         }

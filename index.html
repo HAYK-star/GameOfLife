@@ -59,7 +59,7 @@
             <tr>
                 <th scope="row">3</th>
                 <td scope="row" style="background-color:red;"></td>
-                <td>Կարմիրը գիշատիչն է, նա կարող է ուտել խոտակերին և հրշեջին, այն կարող է նաև կոխրճել խոտը: Այն բազմանում է 2 ցիկլ անդադար ուտելուց հետո, մահանում է 6 ցիկլ չուտելուց հետո:</td>
+                <td>Կարմիրը գիշատիչն է, նա կարող է ուտել խոտակերին և ջուր խմողին, այն կարող է նաև կոխրճել խոտը: Այն բազմանում է 2 ցիկլ անդադար ուտելուց հետո, մահանում է 6 ցիկլ չուտելուց հետո:</td>
                 <td id="predatorCount"></td>
             </tr>
             <tr>
@@ -77,20 +77,14 @@
             <tr>
                 <th scope="row">6</th>
                 <td scope="row" style="background-color: blue;"></td>
-                <td>Կապույտը Օվկիանոս է, նա կարող է ոչնչացնել բոլոր կերպարներին բացի խոտից: </td>
+                <td>Կապույտը Օվկիանոս է, նա կարող է ոչնչացնել միայն լավային: Նրան կարող են ուտել խոտն ու ջուր խմողը: </td>
                 <td id="waterCount"></td>
             </tr>
             <tr>
                 <th scope="row">7</th>
-                <td scope="row" style="background-color: white;"></td>
-                <td>Սպիտակը քար է, այն առաջանում է, երբ ջուրն ու լավան իրար են դիպչում, այն ուղղակի ոբյեկտ է և չի կատարում ոչ մի գործողություն բացի ուղղակի կանգնելուց: </td>
-                <td id="stoneCount"></td>
-            </tr>
-            <tr>
-                <th scope="row">8</th>
                 <td scope="row" style="background-color: purple;"></td>
-                <td>Մանուշակագույնը քար կոտրողն է, այն չի բազմանում և չի մահանում: Նրա իմաստն այն է, որ, նա կարող է կոտրել քարը և այն դարձնել լավա: Այն կարող է քայլել խոտի, ջրի և լավայի վրայով: </td>
-                <td id="stoneBrackerCount"></td>
+                <td>Մանուշակագույնը ջուր խմողն է: Նա կարող է քայլել խոտի վրայով և խմել ջուրը: </td>
+                <td id="waterEaterCount"></td>
             </tr>
         </tbody>
     </table>
@@ -98,7 +92,7 @@
         <h1 style="color:yellowgreen">Events</h1>
         <ul>
             <li>
-                <button onclick="kill()">Kill them all</button>
+                <button onclick="kill()">Kill them all</button><hr>
             </li>
             <li>
                 <button onclick="addGrass()">Add grass</button>
@@ -106,10 +100,26 @@
             <li>
                 <button onclick="addGrassEater()">Add grass eater</button>
             </li>
+            <li>
+                <button onclick="addPredator()">Add predator</button>
+            </li>
+            <li>
+                <button onclick="addLava()">Add lava</button>
+            </li>
+            <li>
+                <button onclick="addHrshej()">Add hrshej</button>
+            </li>
+            <li>
+                <button onclick="addWater()">Add water</button>
+            </li>
+            <li>
+                <button onclick="addWaterEater()">Add water eater</button>
+            </li>
         </ul>
     </div>
-    <script src="p5.js"></script>
+    
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
     <script src="script.js"></script>
 </body>
 

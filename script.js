@@ -1,10 +1,9 @@
-//! Setup function fires automatically
+//! Setup function fires automatically 
+
+   var socket = io();
+
 function setup() {
-
-    var socket = io();
-
     var side = 30;
-
     var matrix = [];
 
     //! Getting DOM objects (HTML elements)
@@ -14,8 +13,7 @@ function setup() {
     let lavaCountElement = document.getElementById('lavaCount');
     let hrshejCountElement = document.getElementById('hrshejCount');
     let waterCountElement = document.getElementById('waterCount');
-    let stoneCountElement = document.getElementById('stoneCount');
-    let stoneBrackerCountElement = document.getElementById('stoneBrackerCount');
+    let waterEaterCountElement = document.getElementById('waterEaterCount');
     //! adding socket listener on "data" <-- name, after that fire 'drawCreatures' function 
 
     socket.on("data", drawCreatures);
@@ -29,8 +27,7 @@ function setup() {
         lavaCountElement.innerText = data.lavaCounter;
         hrshejCountElement.innerText = data.hrshejCounter;
         waterCountElement.innerText = data.waterCounter;
-        stoneCountElement.innerText = data.stoneCounter;
-        stoneBrackerCountElement.innerText = data.stoneBrackerCounter;
+        waterEaterCountElement.innerText = data.waterEaterCounter;
         //! Every time it creates new Canvas woth new matrix size
         createCanvas(matrix[0].length * side, matrix.length * side)
         //! clearing background by setting it to new grey color
@@ -61,9 +58,6 @@ function setup() {
                     fill("blue");
                     rect(j * side, i * side, side, side);
                 } else if (matrix[i][j] == 7) {
-                    fill("white");
-                    rect(j * side, i * side, side, side);
-                } else if (matrix[i][j] == 8) {
                     fill("purple");
                     rect(j * side, i * side, side, side);
                 }
@@ -71,44 +65,27 @@ function setup() {
         }
     }
 }
-io.on("weather", function (data) {
-    weath = data;
-})
-
-function nkarel(matrix) {
-    for (var y = 0; y < matrix.length; y++) {
-        for (var x = 0; x < matrix[0].length; x++) {
-            var obj = matrix[y][x];
-            if (obj == 1) {
-                if (weath == "summer") {
-                    fill("green");
-                } else if (weath == "autumn") {
-                    fill("#333300");
-                } else if (weath == "winter") {
-                    fill("white");
-                } else if (weath == "spring") {
-                    fill("#4dffa6");
-                }
-            } else if (obj == 2) {
-                fill("yellow");
-            } else if (obj == 0) {
-                fill("grey")
-            }
-            rect(x * side, y * side, side, side);
-        }
-    }
-}
-
-socket.on('send matrix', nkarel)
-
-
-
 function kill() {
-    socket.emit("kill")
+    socket.emit("kill");
 }
 function addGrass() {
-    socket.emit("add grass")
+    socket.emit("addGrass");
 }
 function addGrassEater() {
-    socket.emit("add grassEater")
+    socket.emit("addGrassEater");
+}
+function addPredator() {
+    socket.emit("addPredator");
+}
+function addLava() {
+    socket.emit("addLava");
+}
+function addHrshej() {
+    socket.emit("addHrshej");
+}
+function addWater() {
+    socket.emit("addWater");
+}
+function addWaterEater() {
+    socket.emit("addWaterEater");
 }

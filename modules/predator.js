@@ -46,7 +46,7 @@ module.exports = class Predator extends LiveForm{
     }
     eat() {
         this.getNewCoordinates();
-        let newCell = random(this.chooseCell(2));
+        let newCell = random(this.chooseCell(2).concat(this.chooseCell(7)));
         if (newCell) {
             this.life += 9;
             let x = newCell[0];
@@ -63,7 +63,12 @@ module.exports = class Predator extends LiveForm{
                     grassEaterHashiv--;
                 }
             }
-
+            for (let index = 0; index < waterEaterArr.length; index++) {
+                if (waterEaterArr[index].x == x && waterEaterArr[index].y == y) {
+                    waterEaterArr.splice(index, 1)
+                    waterEaterHashiv--;
+                }
+            }
             if (this.life >= 36) {
                 this.mul()
             }
